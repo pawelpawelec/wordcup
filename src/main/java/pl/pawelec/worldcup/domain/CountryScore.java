@@ -35,6 +35,5 @@ public class CountryScore {
       return 1;
     else
       return 0;
-
   }
 }
