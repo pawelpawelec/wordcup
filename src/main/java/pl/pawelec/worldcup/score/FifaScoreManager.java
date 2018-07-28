@@ -18,14 +18,14 @@ public class FifaScoreManager implements ScoreManager {
 
   @Override
   @Transactional
-  public void addScore(@NonNull Country firstCountry, @NonNull Country secondCountry, int firstScore, int secondScore) {
-    CountryScore firstCountryScore = new CountryScore(firstCountry.getId(),
+  public void addScore(@NonNull Country firstCountry,
+                       @NonNull Country secondCountry,
+                       int firstScore,
+                       int secondScore) {
+    CountryScore firstCountryScore = CountryScore.of(firstCountry.getId(),
             firstScore,
             secondScore);
-    if (firstScore < 0 || secondScore < 0) {
-      throw new IllegalArgumentException("Score cannot be less than 0");
-    }
-    CountryScore secondCountryScore = new CountryScore(firstCountry.getId(),
+    CountryScore secondCountryScore = CountryScore.of(firstCountry.getId(),
             secondScore,
             firstScore);
 

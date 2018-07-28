@@ -11,29 +11,24 @@ import javax.persistence.ManyToOne;
 @Data
 public class CountryScore {
 
-  public CountryScore(int countryId, int looseGoal, int gainGoal) {
-    this.countryId = countryId;
-    this.looseGoal = looseGoal;
-    this.gainGoal = gainGoal;
-    this.score = calculateScore(gainGoal, looseGoal);
-  }
-
   @Id
   private int countryId;
   private int looseGoal;
   private int gainGoal;
   private int score;
 
+  private CountryScore(int countryId, int looseGoal, int gainGoal, int score) {
+    this.countryId = countryId;
+    this.looseGoal = looseGoal;
+    this.gainGoal = gainGoal;
+    this.score = score;
+  }
+
   @ManyToOne
   @JoinColumn(name = "countryId", insertable = false, updatable = false)
   private Country country;
 
-  private int calculateScore(int gainGoal, int looseGoal) {
-    if (gainGoal > looseGoal)
-      return 3;
-    else if (gainGoal == looseGoal)
-      return 1;
-    else
-      return 0;
+  public static CountryScore of(int countryId, int looseGoal, int gainGoal) {
+    return new CountryScore(countryId, looseGoal, gainGoal, Score.calculateScore(gainGoal, looseGoal));
   }
 }
